@@ -31,10 +31,10 @@ public class CashierMainFrame extends JFrame {
         contentPanel.setBackground(new Color(236, 240, 241));
 
         // Tombol Menu Utama
-        JButton btnNewOrder = createMenuButton("📝 Buat Pesanan Baru", new Color(52, 152, 219));
-        JButton btnViewOrders = createMenuButton("📋 Lihat Pesanan Aktif", new Color(46, 204, 113));
-        JButton btnOrderHistory = createMenuButton("📊 Riwayat Transaksi", new Color(155, 89, 182));
-        JButton btnViewMenu = createMenuButton("🍽️ Lihat Daftar Menu", new Color(241, 196, 15));
+        JButton btnNewOrder = createMenuButton("Buat Pesanan Baru", new Color(52, 152, 219));
+        JButton btnViewOrders = createMenuButton("Lihat Pesanan Aktif", new Color(46, 204, 113));
+        JButton btnOrderHistory = createMenuButton("Riwayat Transaksi", new Color(155, 89, 182));
+        JButton btnViewMenu = createMenuButton("Lihat Daftar Menu", new Color(241, 196, 15));
 
         // Event Listeners
         btnNewOrder.addActionListener(e -> openNewOrder());
@@ -96,7 +96,7 @@ public class CashierMainFrame extends JFrame {
 
         JButton btnLogout = new JButton("Logout");
         btnLogout.setBackground(new Color(231, 76, 60));
-        btnLogout.setForeground(Color.WHITE);
+        btnLogout.setForeground(new Color(50, 50, 50));
         btnLogout.setFocusPainted(false);
         btnLogout.addActionListener(e -> logout());
 
@@ -114,19 +114,25 @@ public class CashierMainFrame extends JFrame {
         btn.setPreferredSize(new Dimension(350, 80));
         btn.setFont(new Font("Arial", Font.BOLD, 18));
         btn.setBackground(bgColor);
-        btn.setForeground(Color.WHITE);
+
+        // Use dark text for all menu buttons
+        btn.setForeground(new Color(50, 50, 50));
+
         btn.setFocusPainted(false);
         btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Hover effect
+        Color textColor = new Color(50, 50, 50);
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn.setBackground(bgColor.darker());
+                btn.setForeground(textColor); // Keep text color consistent
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn.setBackground(bgColor);
+                btn.setForeground(textColor);
             }
         });
 

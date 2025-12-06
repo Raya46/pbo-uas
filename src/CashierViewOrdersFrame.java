@@ -63,23 +63,26 @@ public class CashierViewOrdersFrame extends JFrame {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
         bottomPanel.setBackground(new Color(236, 240, 241));
 
-        JButton btnViewDetails = new JButton("🔍 Lihat Detail");
+        JButton btnViewDetails = new JButton("Lihat Detail");
         btnViewDetails.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnViewDetails.setForeground(new Color(50, 50, 50));
         btnViewDetails.addActionListener(e -> viewOrderDetails());
 
-        JButton btnUpdateStatus = new JButton("✏️ Update Status");
+        JButton btnUpdateStatus = new JButton("Update Status");
         btnUpdateStatus.setFont(new Font("Arial", Font.PLAIN, 14));
         btnUpdateStatus.setBackground(new Color(52, 152, 219));
-        btnUpdateStatus.setForeground(Color.WHITE);
+        btnUpdateStatus.setForeground(new Color(50, 50, 50));
         btnUpdateStatus.setFocusPainted(false);
         btnUpdateStatus.addActionListener(e -> updateOrderStatus());
 
-        JButton btnRefresh = new JButton("🔄 Refresh");
+        JButton btnRefresh = new JButton("Refresh");
         btnRefresh.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnRefresh.setForeground(new Color(50, 50, 50));
         btnRefresh.addActionListener(e -> loadOrders());
 
-        JButton btnBack = new JButton("← Kembali");
+        JButton btnBack = new JButton("Kembali");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBack.setForeground(new Color(50, 50, 50));
         btnBack.addActionListener(e -> goBack());
 
         bottomPanel.add(btnViewDetails);

@@ -100,9 +100,9 @@ public class CashierNewOrderFrame extends JFrame {
         spinnerQuantity.setPreferredSize(new Dimension(80, 30));
         addPanel.add(spinnerQuantity);
 
-        JButton btnAddToCart = new JButton("➕ Tambah ke Keranjang");
+        JButton btnAddToCart = new JButton("Tambah ke Keranjang");
         btnAddToCart.setBackground(new Color(46, 204, 113));
-        btnAddToCart.setForeground(Color.WHITE);
+        btnAddToCart.setForeground(new Color(50, 50, 50));
         btnAddToCart.setFocusPainted(false);
         btnAddToCart.addActionListener(e -> addToCart());
         addPanel.add(btnAddToCart);
@@ -155,11 +155,13 @@ public class CashierNewOrderFrame extends JFrame {
 
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
 
-        JButton btnRemove = new JButton("🗑️ Hapus Item");
+        JButton btnRemove = new JButton("Hapus Item");
+        btnRemove.setForeground(new Color(50, 50, 50));
         btnRemove.addActionListener(e -> removeFromCart());
         actionPanel.add(btnRemove);
 
-        JButton btnClear = new JButton("🧹 Kosongkan");
+        JButton btnClear = new JButton("Kosongkan");
+        btnClear.setForeground(new Color(50, 50, 50));
         btnClear.addActionListener(e -> clearCart());
         actionPanel.add(btnClear);
 
@@ -173,17 +175,18 @@ public class CashierNewOrderFrame extends JFrame {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 15));
         panel.setBackground(new Color(236, 240, 241));
 
-        JButton btnCheckout = new JButton("💳 CHECKOUT & BAYAR");
+        JButton btnCheckout = new JButton("CHECKOUT & BAYAR");
         btnCheckout.setPreferredSize(new Dimension(200, 45));
         btnCheckout.setFont(new Font("Arial", Font.BOLD, 16));
         btnCheckout.setBackground(new Color(46, 204, 113));
-        btnCheckout.setForeground(Color.WHITE);
+        btnCheckout.setForeground(new Color(50, 50, 50));
         btnCheckout.setFocusPainted(false);
         btnCheckout.addActionListener(e -> checkout());
 
-        JButton btnBack = new JButton("← Kembali");
+        JButton btnBack = new JButton("Kembali");
         btnBack.setPreferredSize(new Dimension(150, 45));
         btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBack.setForeground(new Color(50, 50, 50));
         btnBack.addActionListener(e -> goBack());
 
         panel.add(btnCheckout);

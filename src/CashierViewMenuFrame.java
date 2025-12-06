@@ -60,12 +60,14 @@ public class CashierViewMenuFrame extends JFrame {
         // Bottom Panel
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 15));
 
-        JButton btnRefresh = new JButton("🔄 Refresh");
+        JButton btnRefresh = new JButton("Refresh");
         btnRefresh.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnRefresh.setForeground(new Color(50, 50, 50));
         btnRefresh.addActionListener(e -> loadMenuData());
 
-        JButton btnBack = new JButton("← Kembali");
+        JButton btnBack = new JButton("Kembali");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBack.setForeground(new Color(50, 50, 50));
         btnBack.addActionListener(e -> goBack());
 
         bottomPanel.add(btnRefresh);
