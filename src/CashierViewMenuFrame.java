@@ -33,7 +33,7 @@ public class CashierViewMenuFrame extends JFrame {
         headerPanel.setBackground(new Color(44, 62, 80));
         headerPanel.setPreferredSize(new Dimension(900, 60));
 
-        JLabel lblTitle = new JLabel("  🍽️ DAFTAR MENU RESTORAN");
+        JLabel lblTitle = new JLabel("  DAFTAR MENU RESTORAN");
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         headerPanel.add(lblTitle);

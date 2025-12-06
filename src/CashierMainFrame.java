@@ -82,7 +82,7 @@ public class CashierMainFrame extends JFrame {
         headerPanel.setLayout(new BorderLayout());
 
         // Left side - Title
-        JLabel lblTitle = new JLabel("  💰 KASIR DASHBOARD");
+        JLabel lblTitle = new JLabel("  KASIR DASHBOARD");
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
 
@@ -90,7 +90,7 @@ public class CashierMainFrame extends JFrame {
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 20));
         rightPanel.setBackground(new Color(44, 62, 80));
 
-        JLabel lblUser = new JLabel("👤 " + currentUser.getFullName() + " (Kasir)");
+        JLabel lblUser = new JLabel(currentUser.getFullName() + " (Kasir)");
         lblUser.setForeground(Color.WHITE);
         lblUser.setFont(new Font("Arial", Font.PLAIN, 14));
 

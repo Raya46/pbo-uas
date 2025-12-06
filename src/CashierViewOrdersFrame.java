@@ -34,7 +34,7 @@ public class CashierViewOrdersFrame extends JFrame {
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(46, 204, 113));
         headerPanel.setPreferredSize(new Dimension(1000, 60));
-        JLabel lblTitle = new JLabel("  📋 PESANAN AKTIF");
+        JLabel lblTitle = new JLabel("  PESANAN AKTIF");
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
         headerPanel.add(lblTitle);

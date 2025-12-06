@@ -48,7 +48,7 @@ public class CashierNewOrderFrame extends JFrame {
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(52, 152, 219));
         headerPanel.setPreferredSize(new Dimension(1200, 60));
-        JLabel lblTitle = new JLabel("  📝 BUAT PESANAN BARU");
+        JLabel lblTitle = new JLabel("  BUAT PESANAN BARU");
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
         headerPanel.add(lblTitle);
