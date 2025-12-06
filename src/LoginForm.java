@@ -56,7 +56,8 @@ public class LoginForm extends JFrame {
 
         // Validasi input kosong
         if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong!", "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -76,7 +77,8 @@ public class LoginForm extends JFrame {
                 new AdminMainFrame(user).setVisible(true);
 
             } else if (user.getRole().equalsIgnoreCase("kasir")) {
-                JOptionPane.showMessageDialog(null, "Halaman Kasir akan segera hadir.");
+                // Buka Dashboard Kasir
+                new CashierMainFrame(user).setVisible(true);
 
             } else {
                 JOptionPane.showMessageDialog(this, "Role user tidak dikenali!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -84,7 +86,8 @@ public class LoginForm extends JFrame {
 
         } else {
             // Login Gagal
-            JOptionPane.showMessageDialog(this, "Username atau Password Salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Username atau Password Salah!", "Login Gagal",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
