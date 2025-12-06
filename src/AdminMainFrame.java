@@ -44,7 +44,7 @@ public class AdminMainFrame extends JFrame {
         // Logic tombol (Sementara pakai sout dulu)
         btnManageMenu.addActionListener(e -> JOptionPane.showMessageDialog(this, "Membuka Menu Management..."));
 
-        // Menambahkan tombol ke panel
+        // Menambahkan tombol ke dalam panel
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10); // Jarak antar tombol
         gbc.gridx = 0; gbc.gridy = 0;
