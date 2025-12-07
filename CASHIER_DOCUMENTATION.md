@@ -1,324 +1,214 @@
-# 💰 FITUR CASHIER/KASIR - DOKUMENTASI LENGKAP
+# 💰 FITUR CASHIER - DOKUMENTASI
 
-## 📋 Daftar Isi
-1. [Overview](#overview)
-2. [Fitur-Fitur](#fitur-fitur)
-3. [File yang Dibuat](#file-yang-dibuat)
-4. [Cara Menggunakan](#cara-menggunakan)
-5. [Screenshot Workflow](#screenshot-workflow)
-6. [Troubleshooting](#troubleshooting)
+## 📋 Overview
+
+Dashboard Kasir All-in-One untuk operasional sehari-hari restoran.
 
 ---
 
-## 🎯 Overview
+## ✨ Fitur Utama
 
-Sistem Kasir adalah modul untuk mengelola transaksi penjualan di restoran. Kasir dapat:
-- Membuat pesanan baru (POS System)
-- Melihat daftar menu
-- Mengelola pesanan aktif
-- Memproses pembayaran
-- Update status pesanan
+### 1. 🪑 **Dashboard Kasir - Status Meja**
+Melihat status semua meja secara real-time:
+- ✅ **Available** - Meja kosong, siap digunakan
+- 🔴 **Occupied** - Meja sedang digunakan customer
 
----
+### 2. 📋 **Order List - Pesanan Masuk**
+Melihat semua pesanan yang masuk dari pelanggan:
+- Order ID
+- Nama Customer
+- Nomor Meja (atau "Take Away")
+- Total Pembayaran
+- Status Pesanan
+- Waktu Order
 
-## ✨ Fitur-Fitur
+**Filter otomatis:** Hanya menampilkan pesanan hari ini
 
-### 1. **Dashboard Kasir** (`CashierMainFrame.java`)
+### 3. ✏️ **Update Status Pesanan**
+Mengubah status pesanan sesuai workflow:
 
-**Tampilan Utama:**
-- Header dengan nama kasir yang login
-- 4 Menu utama:
-  - 📝 **Buat Pesanan Baru** - POS System
-  - 📋 **Lihat Pesanan Aktif** - Monitor orders
-  - 📊 **Riwayat Transaksi** - History (placeholder)
-  - 🍽️ **Lihat Daftar Menu** - View menu items
-- Tombol Logout
+```
+⏳ Pending → 🍳 Cooking → ✅ Ready → 🍽️ Served → 💰 Paid
+```
+
+**Status yang tersedia:**
+- **Pending** - Pesanan baru masuk
+- **Cooking** - Sedang dimasak di dapur
+- **Ready** - Makanan sudah siap
+- **Served** - Sudah disajikan ke customer
+- **Paid** - Sudah dibayar (selesai)
+- **Cancelled** - Dibatalkan
+
+### 4. 💰 **Pembayaran & Cetak Struk**
 
 **Fitur:**
-- ✅ Modern UI dengan color coding
-- ✅ Hover effects pada tombol
-- ✅ Navigation ke semua modul
-- ✅ Logout confirmation
+- Lihat detail pesanan lengkap
+- Generate struk pembayaran (simulasi)
+- Konfirmasi pembayaran
+- Auto update status ke "Paid"
+- **Auto release meja** (status jadi "Available")
 
 ---
 
-### 2. **Buat Pesanan Baru** (`CashierNewOrderFrame.java`)
+## 🖥️ Layout Dashboard
 
-**Layout:**
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  📝 BUAT PESANAN BARU                                   │
-├──────────────────────┬──────────────────────────────────┤
-│  DAFTAR MENU         │  KERANJANG BELANJA               │
-│                      │                                  │
-│  [Table: Menu Items] │  Nama Customer: [________]       │
-│  - ID                │  No. HP:        [________]       │
-│  - Nama              │                                  │
-│  - Kategori          │  [Table: Cart Items]             │
-│  - Harga             │  - Menu                          │
-│  - Stok              │  - Harga                         │
-│                      │  - Qty                           │
-│  Jumlah: [1] [+Add]  │  - Subtotal                      │
-│                      │                                  │
-│                      │  TOTAL: Rp 0                     │
-│                      │  [Hapus] [Kosongkan]             │
-├──────────────────────┴──────────────────────────────────┤
-│         [💳 CHECKOUT & BAYAR]  [← Kembali]              │
+│  🏪 DASHBOARD KASIR - OPERASIONAL    Kasir: Siti Kasir │
+├─────────────────────────────────────────────────────────┤
+│  📊 Total Orders: 15  │  ⏳ Pesanan Pending: 3          │
+├──────────────────┬──────────────────────────────────────┤
+│  🪑 STATUS MEJA  │  📋 DAFTAR PESANAN MASUK             │
+│                  │                                       │
+│  Meja 01  ✅     │  #123  Budi    01  Rp60k  ⏳ 10:30  │
+│  Meja 02  🔴     │  #124  Ani     02  Rp45k  🍳 10:35  │
+│  Meja 03  ✅     │  #125  Citra  T/A  Rp30k  ✅ 10:40  │
+│  Meja 04  ✅     │                                       │
+│  VIP-1    🔴     │  [👁️ Detail] [✏️ Update] [💰 Bayar] │
+└──────────────────┴──────────────────────────────────────┘
+│              [🔄 Refresh Data]  [🚪 Logout]              │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Fitur:**
-- ✅ **Split View** - Menu list di kiri, Cart di kanan
-- ✅ **Menu Selection** - Pilih dari daftar menu yang tersedia
-- ✅ **Quantity Selector** - Spinner untuk pilih jumlah
-- ✅ **Add to Cart** - Tambah item ke keranjang
-- ✅ **Stock Validation** - Cek stok sebelum add
-- ✅ **Cart Management**:
-  - Lihat items di cart
-  - Hapus item tertentu
-  - Kosongkan semua cart
-  - Auto-calculate total
-- ✅ **Customer Info** - Input nama dan nomor HP
-- ✅ **Checkout Process**:
-  - Validasi cart tidak kosong
-  - Validasi customer info
-  - Konfirmasi pembayaran
-  - Simpan ke database (orders + order_details)
-  - Auto-create customer jika belum ada
-  - Success notification dengan Order ID
-
-**Workflow:**
-1. Pilih menu dari tabel kiri
-2. Set quantity
-3. Klik "Tambah ke Keranjang"
-4. Ulangi untuk item lain
-5. Isi nama dan HP customer
-6. Klik "CHECKOUT & BAYAR"
-7. Konfirmasi
-8. Selesai!
-
 ---
 
-### 3. **Lihat Daftar Menu** (`CashierViewMenuFrame.java`)
+## 🔄 Workflow Operasional
 
-**Tampilan:**
+### Skenario: Pesanan Baru Masuk
+
 ```
-┌─────────────────────────────────────────────────────────┐
-│  🍽️ DAFTAR MENU RESTORAN                                │
-├─────────────────────────────────────────────────────────┤
-│  [Table: All Menu Items]                                │
-│  ID | Nama Menu | Kategori | Harga | Stok | Status     │
-│  ───────────────────────────────────────────────────    │
-│  1  | Nasi Goreng | Makanan | Rp 25,000 | 50 | Tersedia│
-│  2  | Es Teh      | Minuman | Rp 5,000  | 100| Tersedia│
-│  ...                                                     │
-├─────────────────────────────────────────────────────────┤
-│         [🔄 Refresh]  [← Kembali]                        │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Fitur:**
-- ✅ Tampilkan semua menu items
-- ✅ Info lengkap: ID, Nama, Kategori, Harga, Stok, Status
-- ✅ Refresh data
-- ✅ Read-only table
-- ✅ Auto-format harga (Rp format)
-- ✅ Status indicator (Tersedia/Habis)
-
----
-
-### 4. **Lihat Pesanan Aktif** (`CashierViewOrdersFrame.java`)
-
-**Tampilan:**
-```
-┌─────────────────────────────────────────────────────────┐
-│  📋 PESANAN AKTIF                                        │
-├─────────────────────────────────────────────────────────┤
-│  [Table: Active Orders]                                 │
-│  Order ID | Customer | Phone | Total | Tanggal | Status │
-│  ──────────────────────────────────────────────────────│
-│  1 | John Doe | 0812... | Rp 50,000 | 2024-12-07 | PENDING│
-│  2 | Jane     | 0813... | Rp 35,000 | 2024-12-07 | COOKING│
-│  ...                                                     │
-├─────────────────────────────────────────────────────────┤
-│  [🔍 Detail] [✏️ Update Status] [🔄 Refresh] [← Kembali]│
-└─────────────────────────────────────────────────────────┘
-```
-
-**Fitur:**
-- ✅ **View Active Orders** - Hanya tampilkan order dengan status:
-  - pending
-  - cooking
-  - served
-- ✅ **Order Details** - Klik untuk lihat detail items
-- ✅ **Update Status** - Ubah status order:
-  - pending → cooking
-  - cooking → served
-  - served → paid
-  - any → cancelled
-- ✅ **Refresh** - Reload data terbaru
-- ✅ **Auto-format** - Harga dan tanggal
-
-**Detail Order Dialog:**
-```
-=== DETAIL PESANAN ===
-
-Order ID: 1
-Customer: John Doe
-Phone: 081234567890
-Status: PENDING
-
-=== ITEMS ===
-• Nasi Goreng Spesial x2 @ Rp 25,000 = Rp 50,000
-• Es Teh Manis x2 @ Rp 5,000 = Rp 10,000
-
-TOTAL: Rp 60,000
+1. Customer order via sistem customer
+   ↓
+2. Order muncul di Dashboard Kasir (status: Pending)
+   ↓
+3. Kasir lihat detail pesanan (klik "👁️ Lihat Detail")
+   ↓
+4. Kasir update status → "Cooking" (klik "✏️ Update Status")
+   ↓
+5. Dapur menerima notifikasi (sistem dapur)
+   ↓
+6. Setelah selesai masak → Update status "Ready"
+   ↓
+7. Pelayan sajikan → Update status "Served"
+   ↓
+8. Customer minta bayar → Kasir proses pembayaran
+   ↓
+9. Klik "💰 Pembayaran" → Lihat struk → Konfirmasi
+   ↓
+10. Status "Paid" + Meja "Available"
 ```
 
 ---
 
-## 📁 File yang Dibuat
+## 💳 Format Struk Pembayaran
 
-### **Java Files:**
+```
+═══════════════════════════════════
+       RESTORAN NUSANTARA
+     Jl. Merdeka No. 123
+      Telp: (021) 1234567
+═══════════════════════════════════
 
-1. **`CashierMainFrame.java`** (176 lines)
-   - Dashboard utama kasir
-   - Navigation hub
+No. Order : #123
+Tanggal   : 07/12/2025 10:30:45
+Kasir     : Siti Kasir
+Customer  : Budi Santoso
+Meja      : 01
 
-2. **`CashierNewOrderFrame.java`** (419 lines)
-   - POS System lengkap
-   - Cart management
-   - Checkout & payment
+───────────────────────────────────
 
-3. **`CashierViewMenuFrame.java`** (106 lines)
-   - View all menu items
-   - Stock information
+Nasi Goreng Spesial x2
+  @Rp25,000 = Rp50,000
+Es Teh Manis        x2
+  @Rp5,000 = Rp10,000
 
-4. **`CashierViewOrdersFrame.java`** (247 lines)
-   - View active orders
-   - Order details
-   - Status management
+───────────────────────────────────
+TOTAL:          Rp 60,000
+═══════════════════════════════════
 
-### **Modified Files:**
+     Terima Kasih Atas
+       Kunjungan Anda!
 
-5. **`LoginForm.java`**
-   - Updated line 78-79
-   - Redirect kasir to `CashierMainFrame`
+═══════════════════════════════════
+```
+
+---
+
+## 📁 File yang Digunakan
+
+### ✅ **File AKTIF:**
+
+1. **CashierMainFrame.java** - Dashboard utama (ALL-IN-ONE)
+   - Status meja
+   - Order list
+   - Update status
+   - Pembayaran
+
+### ❌ **File TIDAK DIGUNAKAN** (bisa dihapus):
+
+1. **CashierNewOrderFrame.java** - Tidak dipakai (order dari customer)
+2. **CashierViewMenuFrame.java** - Tidak dipakai (hanya referensi)
+3. **CashierViewOrdersFrame.java** - Sudah digabung ke dashboard
 
 ---
 
 ## 🚀 Cara Menggunakan
 
-### **Login sebagai Kasir:**
-
-1. **Jalankan aplikasi** (`Main.java`)
-2. **Login** dengan kredensial kasir:
-   ```
-   Username: kasir1
-   Password: kasir123
-   ```
-3. **Dashboard Kasir** akan terbuka
-
----
-
-### **Workflow: Membuat Pesanan**
-
-**Skenario:** Customer pesan 2 Nasi Goreng + 2 Es Teh
-
-1. **Klik** "📝 Buat Pesanan Baru"
-
-2. **Pilih menu** dari tabel kiri:
-   - Klik row "Nasi Goreng Spesial"
-   - Set quantity: `2`
-   - Klik "➕ Tambah ke Keranjang"
-
-3. **Tambah item lain**:
-   - Klik row "Es Teh Manis"
-   - Set quantity: `2`
-   - Klik "➕ Tambah ke Keranjang"
-
-4. **Isi customer info**:
-   - Nama: `John Doe`
-   - No. HP: `081234567890`
-
-5. **Checkout**:
-   - Klik "💳 CHECKOUT & BAYAR"
-   - Konfirmasi pembayaran
-   - Selesai!
-
-6. **Result:**
-   - Order tersimpan di database
-   - Order ID ditampilkan
-   - Cart dikosongkan
-
----
-
-### **Workflow: Lihat & Update Status Order**
-
-1. **Klik** "📋 Lihat Pesanan Aktif"
-
-2. **Lihat detail**:
-   - Pilih order dari tabel
-   - Klik "🔍 Lihat Detail"
-   - Dialog muncul dengan detail items
-
-3. **Update status**:
-   - Pilih order
-   - Klik "✏️ Update Status"
-   - Pilih status baru (pending/cooking/served/paid/cancelled)
-   - Konfirmasi
-
-4. **Refresh**:
-   - Klik "🔄 Refresh" untuk reload data
-
----
-
-## 🎨 UI/UX Features
-
-### **Color Scheme:**
-- **Header:** Dark Blue (#2C3E50)
-- **Buat Order:** Blue (#3498DB)
-- **View Orders:** Green (#2ECC71)
-- **History:** Purple (#9B59B6)
-- **View Menu:** Yellow (#F1C40F)
-- **Checkout:** Green (#2ECC71)
-- **Logout:** Red (#E74C3C)
-
-### **Interactive Elements:**
-- ✅ Hover effects pada semua tombol
-- ✅ Hand cursor pada clickable items
-- ✅ Color feedback untuk actions
-- ✅ Confirmation dialogs
-- ✅ Success/Error messages
-
-### **User Experience:**
-- ✅ Intuitive navigation
-- ✅ Clear labels dan icons
-- ✅ Validation messages
-- ✅ Auto-format currency
-- ✅ Responsive layout
-- ✅ Back navigation
-
----
-
-## 🔧 Technical Details
-
-### **Database Operations:**
-
-**Create Order:**
-```java
-1. Insert into customers (if new)
-2. Insert into orders (get order_id)
-3. Insert into order_details (for each cart item)
-4. Commit transaction
+### 1. Login
+```
+Username: kasir
+Password: kasir123
 ```
 
-**View Orders:**
+### 2. Monitor Dashboard
+- Panel kiri: Status meja
+- Panel kanan: Daftar pesanan
+- Header: Statistik hari ini
+
+### 3. Lihat Detail Order
+1. Pilih order dari tabel
+2. Klik "👁️ Lihat Detail"
+3. Dialog muncul dengan detail lengkap
+
+### 4. Update Status
+1. Pilih order
+2. Klik "✏️ Update Status"
+3. Pilih status baru
+4. Konfirmasi
+
+### 5. Proses Pembayaran
+1. Pilih order yang akan dibayar
+2. Klik "💰 Pembayaran"
+3. Review struk
+4. Klik OK untuk konfirmasi
+5. Selesai!
+
+### 6. Refresh Data
+- Klik "🔄 Refresh Data"
+- Atau otomatis refresh setelah update/pembayaran
+
+---
+
+## 💾 Database Integration
+
+### Tables Used:
+1. **orders** - Data pesanan
+2. **order_details** - Detail items
+3. **customers** - Data customer
+4. **restaurant_tables** - Status meja
+5. **menu_items** - Data menu
+6. **users** - Data kasir
+
+### Key Queries:
+
+**Load Orders Hari Ini:**
 ```sql
-SELECT o.*, c.full_name, c.phone 
-FROM orders o 
-JOIN customers c ON o.customer_id = c.customer_id 
-WHERE o.status IN ('pending', 'cooking', 'served')
+SELECT o.order_id, c.customer_name, rt.table_number, 
+       o.total_amount, o.status, o.order_date
+FROM orders o
+LEFT JOIN customers c ON o.customer_id = c.customer_id
+LEFT JOIN restaurant_tables rt ON o.table_id = rt.table_id
+WHERE DATE(o.order_date) = CURDATE()
 ORDER BY o.order_date DESC
 ```
 
@@ -326,150 +216,79 @@ ORDER BY o.order_date DESC
 ```sql
 UPDATE orders 
 SET status = ? 
-WHERE id = ?
+WHERE order_id = ?
+```
+
+**Process Payment:**
+```sql
+-- Update order
+UPDATE orders SET status = 'paid' WHERE order_id = ?
+
+-- Release table
+UPDATE restaurant_tables rt
+JOIN orders o ON rt.table_id = o.table_id
+SET rt.status = 'available'
+WHERE o.order_id = ?
 ```
 
 ---
 
-## 🐛 Troubleshooting
-
-### **Error: "ClassNotFoundException: CashierMainFrame"**
-
-**Penyebab:** File belum di-compile
-
-**Solusi:**
-```cmd
-javac -cp ".;lib\mysql-connector-j-9.5.0.jar" src\*.java
-```
-
----
-
-### **Error: "Keranjang masih kosong"**
-
-**Penyebab:** Belum add item ke cart
-
-**Solusi:** Pilih menu dan klik "Tambah ke Keranjang"
-
----
-
-### **Error: "Stok tidak cukup"**
-
-**Penyebab:** Quantity melebihi stok tersedia
-
-**Solusi:** Kurangi quantity atau pilih menu lain
-
----
-
-### **Error: "Nama customer harus diisi"**
-
-**Penyebab:** Field nama kosong
-
-**Solusi:** Isi nama customer sebelum checkout
-
----
-
-### **Error saat save order**
-
-**Penyebab:** Database connection issue
-
-**Solusi:**
-1. Cek XAMPP MySQL running
-2. Cek database `db_restoran_final` exists
-3. Cek tabel `customers`, `orders`, `order_details` exists
-
----
-
-## 📊 Database Schema (Reminder)
-
-### **Tabel yang Digunakan:**
-
-**customers:**
-- customer_id (PK)
-- username
-- password
-- full_name
-- phone
-
-**orders:**
-- id (PK)
-- customer_id (FK)
-- total_price
-- order_date
-- status
-- payment_method
-
-**order_details:**
-- id (PK)
-- order_id (FK)
-- menu_id (FK)
-- quantity
-- price
-
-**menu_items:**
-- menu_id (PK)
-- name
-- category
-- price
-- stock
-
----
-
-## 🎯 Future Enhancements
-
-Fitur yang bisa ditambahkan:
-
-1. ✨ **Print Receipt** - Cetak struk pembayaran
-2. ✨ **Order History** - Riwayat transaksi lengkap
-3. ✨ **Sales Report** - Laporan penjualan harian/bulanan
-4. ✨ **Discount System** - Sistem diskon/promo
-5. ✨ **Table Management** - Manajemen nomor meja
-6. ✨ **Split Bill** - Pembayaran terpisah
-7. ✨ **Cash Drawer** - Manajemen kas
-8. ✨ **Barcode Scanner** - Scan barcode menu
-9. ✨ **Kitchen Display** - Tampilan untuk dapur
-10. ✨ **Customer Display** - Layar untuk customer
-
----
-
-## 📞 Support
-
-Jika ada pertanyaan atau bug:
-1. Cek file `DATABASE_DOCUMENTATION.md`
-2. Cek file `SETUP_ANTIGRAVITY.md`
-3. Cek console untuk error messages
-
----
-
-## ✅ Checklist Testing
-
-Sebelum deploy, test fitur-fitur berikut:
+## ✅ Testing Checklist
 
 - [ ] Login sebagai kasir
 - [ ] Dashboard tampil dengan benar
-- [ ] Buat pesanan baru
-  - [ ] Add item ke cart
-  - [ ] Remove item dari cart
-  - [ ] Clear cart
-  - [ ] Checkout berhasil
-  - [ ] Order tersimpan di database
-- [ ] View menu
-  - [ ] Semua menu tampil
-  - [ ] Harga format benar
-  - [ ] Status stok benar
-- [ ] View orders
-  - [ ] Active orders tampil
-  - [ ] Detail order benar
-  - [ ] Update status berhasil
-- [ ] Logout berhasil
+- [ ] Status meja terload
+- [ ] Daftar pesanan terload
+- [ ] Statistik tampil
+- [ ] Lihat detail order
+- [ ] Update status order
+- [ ] Proses pembayaran
+- [ ] Struk generate dengan benar
+- [ ] Meja auto-release setelah bayar
+- [ ] Refresh data
+- [ ] Logout
 
 ---
 
-**Sistem Kasir siap digunakan!** 🎉
+## 🎨 UI Features
 
-**Login Credentials:**
-```
-Username: kasir1
-Password: kasir123
-```
+### Color Coding:
+- **Header:** Blue (#3498db)
+- **Stats - Total:** Green (#2ecc71)
+- **Stats - Pending:** Orange (#f39c12)
+- **Tables Panel:** Blue border
+- **Orders Panel:** Green border
+- **Buttons:** Color-coded by function
 
-Selamat mencoba! 🚀
+### Icons:
+- 🏪 Dashboard
+- 🪑 Meja
+- 📋 Pesanan
+- 👁️ Detail
+- ✏️ Update
+- 💰 Pembayaran
+- 🔄 Refresh
+- 🚪 Logout
+
+---
+
+## 📝 Notes
+
+### Keunggulan:
+✅ **All-in-One** - Semua fitur dalam 1 window
+✅ **Real-time** - Status update langsung
+✅ **Auto-release** - Meja otomatis available
+✅ **Professional Receipt** - Struk pembayaran rapi
+✅ **Simple Workflow** - View → Update → Pay
+
+### Fokus:
+- ✅ Monitoring (status meja & pesanan)
+- ✅ Update (ubah status pesanan)
+- ✅ Payment (proses pembayaran & struk)
+- ✅ Efficiency (tidak perlu banyak klik)
+
+---
+
+**Last Updated:** 2025-12-07  
+**Version:** 4.0 - Final  
+**Status:** ✅ PRODUCTION READY
