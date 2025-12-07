@@ -74,8 +74,7 @@ public class CashierMainFrame extends JFrame {
 
         JButton btnRefresh = new JButton("Refresh Data");
         btnRefresh.setFont(new Font("Arial", Font.BOLD, 14));
-        btnRefresh.setBackground(new Color(52, 152, 219));
-        btnRefresh.setForeground(Color.WHITE);
+        btnRefresh.setBackground(Color.BLUE);
         btnRefresh.setFocusPainted(false);
         btnRefresh.setPreferredSize(new Dimension(160, 45));
         btnRefresh.addActionListener(e -> refreshAll());
@@ -83,7 +82,6 @@ public class CashierMainFrame extends JFrame {
         JButton btnLogout = new JButton("Logout");
         btnLogout.setFont(new Font("Arial", Font.PLAIN, 14));
         btnLogout.setBackground(new Color(231, 76, 60));
-        btnLogout.setForeground(Color.WHITE);
         btnLogout.setFocusPainted(false);
         btnLogout.setPreferredSize(new Dimension(120, 45));
         btnLogout.addActionListener(e -> logout());
@@ -138,7 +136,7 @@ public class CashierMainFrame extends JFrame {
         tableTables.setFont(new Font("Arial", Font.PLAIN, 14));
         tableTables.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         tableTables.getTableHeader().setBackground(new Color(52, 152, 219));
-        tableTables.getTableHeader().setForeground(Color.WHITE);
+        tableTables.getTableHeader().setForeground(Color.BLACK);
 
         JScrollPane scrollPane = new JScrollPane(tableTables);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -166,7 +164,7 @@ public class CashierMainFrame extends JFrame {
         tableOrders.setFont(new Font("Arial", Font.PLAIN, 13));
         tableOrders.getTableHeader().setFont(new Font("Arial", Font.BOLD, 13));
         tableOrders.getTableHeader().setBackground(new Color(46, 204, 113));
-        tableOrders.getTableHeader().setForeground(Color.WHITE);
+        tableOrders.getTableHeader().setForeground(Color.black);
 
         JScrollPane scrollPane = new JScrollPane(tableOrders);
         panel.add(scrollPane, BorderLayout.CENTER);
