@@ -6,6 +6,10 @@ public class AdminMainFrame extends JFrame {
     final private User currentUser;
 
     public AdminMainFrame(User user) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {}
+
         this.currentUser = user;
         initComponents();
     }
@@ -41,10 +45,58 @@ public class AdminMainFrame extends JFrame {
         JButton btnManageUsers = createMenuButton("Manajemen User");
         JButton btnReports = createMenuButton("Laporan Penjualan");
 
-        // Logic tombol (Sementara pakai sout dulu)
-        btnManageMenu.addActionListener(e -> JOptionPane.showMessageDialog(this, "Membuka Menu Management..."));
+        btnManageMenu.addActionListener(e -> {
+            System.out.println("DEBUG: btnManageMenu clicked");
+            try {
+                MenuManagementFrame menuFrame = new MenuManagementFrame(AdminMainFrame.this);
+                menuFrame.setVisible(true);
+                AdminMainFrame.this.setVisible(false);
 
-        // Menambahkan tombol ke dalam panel
+                menuFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent ev) {
+                        AdminMainFrame.this.setVisible(true);
+                    }
+                });
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(AdminMainFrame.this,
+                        "Gagal membuka Menu Management:\n" + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        btnManageUsers.addActionListener(e -> {
+            this.setVisible(false); // sembunyikan AdminMainFrame
+            UserManagementFrame umf = new UserManagementFrame(this);
+            umf.setVisible(true);
+        });
+
+        btnReports.addActionListener(e -> {
+            try {
+                ReportsFrame r = new ReportsFrame();
+                r.setVisible(true);
+                AdminMainFrame.this.setVisible(false);
+
+                r.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent ev) {
+                        AdminMainFrame.this.setVisible(true);
+                    }
+                });
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(AdminMainFrame.this,
+                        "Gagal membuka Halaman Laporan:\n" + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // Menambahkan tombol ke panel
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10); // Jarak antar tombol
         gbc.gridx = 0; gbc.gridy = 0;
