@@ -1,38 +1,94 @@
+import java.math.BigDecimal;
+import java.util.Objects;
+
 public class MenuItem {
-    private int menuId;
+    private Integer menuId;
+    private Category category;
     private String name;
-    private String category;
-    private double price;
+    private String description;
+    private BigDecimal price;
     private int stock;
+    private String imagePath;
+    private boolean isAvailable;
 
     public MenuItem() {}
 
-    public MenuItem(int menuId, String name, double price) {
+    public MenuItem(int menuId, Category category, String name, String description, BigDecimal price, int stock, String imagePath, boolean isAvailable) {
         this.menuId = menuId;
-        this.name = name;
-        this.price = price;
-    }
-
-    public MenuItem(int menuId, String name, String category, double price, int stock) {
-        this.menuId = menuId;
-        this.name = name;
         this.category = category;
+        this.name = name;
+        this.description = description;
         this.price = price;
         this.stock = stock;
+        this.imagePath = imagePath;
+        this.isAvailable = isAvailable;
     }
 
-    public int getMenuId() { return menuId; }
-    public void setMenuId(int menuId) { this.menuId = menuId; }
+    public int getMenuId() {
+        return menuId;
+    }
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
+    }
+    public Category getCategory() {
+        return category;
+    }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public BigDecimal getPrice() {
+        return price;
+    }
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+    public int getStock() {
+        return stock;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+    public String getImagePath() {
+        return imagePath;
+    }
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    @Override
+    public String toString() {
+        return "[" + menuId + "] " + name + " - " + (category != null ? category.getCategoryName() : "NoCategory");
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+        MenuItem menuItem = (MenuItem) o;
+        return menuId == menuItem.menuId;
+    }
 
-    public int getStock() { return stock; }
-    public void setStock(int stock) { this.stock = stock; }
+    @Override
+    public int hashCode() {
+        return Objects.hash(menuId);
+    }
 }

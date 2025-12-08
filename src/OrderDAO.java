@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
 
 public class OrderDAO {
 
@@ -11,7 +12,7 @@ public class OrderDAO {
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, order.getCustomerId());
-            ps.setDouble(2, order.getTotalPrice());
+            ps.setBigDecimal(2, order.getTotalPrice());
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -31,7 +32,7 @@ public class OrderDAO {
             ps.setInt(1, detail.getOrderId());
             ps.setInt(2, detail.getMenuId());
             ps.setInt(3, detail.getQuantity());
-            ps.setDouble(4, detail.getPrice());
+            ps.setBigDecimal(4, detail.getPrice());
             ps.executeUpdate();
         }
     }
@@ -50,7 +51,7 @@ public class OrderDAO {
                 orders.add(new Order(
                         rs.getInt("id"),
                         rs.getInt("customer_id"),
-                        rs.getDouble("total_price"),
+                        rs.getBigDecimal("total_price"),
                         rs.getTimestamp("order_date")
                 ));
             }
@@ -78,7 +79,7 @@ public class OrderDAO {
                         rs.getInt("order_id"),
                         rs.getInt("menu_id"),
                         rs.getInt("quantity"),
-                        rs.getDouble("price")
+                        rs.getBigDecimal("price")
                 ));
             }
 
