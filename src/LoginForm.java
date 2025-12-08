@@ -16,7 +16,7 @@ public class LoginForm extends JFrame {
         setTitle("Login Sistem Restoran");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Agar muncul tepat di tengah layar
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         JLabel lblTitle = new JLabel("Login System", SwingConstants.CENTER);
