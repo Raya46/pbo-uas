@@ -62,7 +62,6 @@ public class LoginForm extends JFrame {
         }
 
         // Panggil UserDAO untuk cek ke database
-        // Karena satu folder, tidak perlu import UserDAO
         UserDAO userDAO = new UserDAO();
         User user = userDAO.validateLogin(username, password);
 
@@ -72,16 +71,22 @@ public class LoginForm extends JFrame {
 
             this.dispose(); // Tutup jendela login
 
+            // === LOGIC ROLE DIPERBARUI DI SINI ===
             if (user.getRole().equalsIgnoreCase("admin")) {
                 // Buka Dashboard Admin
                 new AdminMainFrame(user).setVisible(true);
 
             } else if (user.getRole().equalsIgnoreCase("kasir")) {
-                // Buka Dashboard Kasir
-                new CashierMainFrame(user).setVisible(true);
+                // Buka Dashboard Kasir (Pastikan file CashierMainFrame sudah ada, atau buat dummy dulu)
+                // new CashierMainFrame(user).setVisible(true);
+                JOptionPane.showMessageDialog(this, "Dashboard Kasir belum dibuat (Next Step)");
+
+            } else if (user.getRole().equalsIgnoreCase("customer")) {
+                // Buka Dashboard Customer
+                new CustomerMainFrame(user).setVisible(true);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Role user tidak dikenali!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Role user tidak dikenali: " + user.getRole(), "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } else {
