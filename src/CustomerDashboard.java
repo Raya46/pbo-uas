@@ -5,7 +5,7 @@ public class CustomerDashboard extends JFrame {
 
     private Customer customer;
     private Cart cart;
-
+    //tes
     public CustomerDashboard(Customer customer, Cart cart) {
         this.customer = customer;
         this.cart = cart;

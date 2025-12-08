@@ -8,7 +8,7 @@ public class CustomerOrderHistoryFrame extends JFrame {
     private Customer customer;
     private JTable tableOrders;
     private DefaultTableModel model;
-
+    //tes
     public CustomerOrderHistoryFrame(Customer customer){
         this.customer = customer;
 

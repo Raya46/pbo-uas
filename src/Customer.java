@@ -5,7 +5,7 @@ public class Customer {
     private String fullName;
 
     public Customer() {}
-
+    //tes
     public Customer(int customerId, String username, String password, String fullName) {
         this.customerId = customerId;
         this.username = username;

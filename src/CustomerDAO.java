@@ -5,7 +5,7 @@ public class CustomerDAO {
     public Customer login(String username, String password) {
         Customer customer = null;
         String sql = "SELECT * FROM customers WHERE username = ? AND password = ?";
-
+//tes
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 

@@ -7,7 +7,7 @@ public class CustomerViewMenuFrame extends JFrame {
 
     private Customer customer;
     private Cart cart;
-
+    //tes
     private JTable tableMenu;
     private DefaultTableModel model;
     private JButton btnAddToCart, btnViewCart, btnBack;

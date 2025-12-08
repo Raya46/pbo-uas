@@ -6,7 +6,7 @@ public class CartItem {
         this.menuItem = menuItem;
         this.quantity = quantity;
     }
-
+    //tes
     public MenuItem getMenuItem() { return menuItem; }
 
     public int getQuantity() { return quantity; }

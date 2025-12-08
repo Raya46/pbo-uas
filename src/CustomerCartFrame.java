@@ -9,7 +9,7 @@ public class CustomerCartFrame extends JFrame {
     private JTable tableCart;
     private DefaultTableModel model;
     private JButton btnCheckout, btnBack;
-
+    //tes
     public CustomerCartFrame(Customer customer, Cart cart){
         this.customer = customer;
         this.cart = cart;

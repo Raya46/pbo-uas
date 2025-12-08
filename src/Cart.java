@@ -30,6 +30,8 @@ public class Cart {
         return total;
     }
 
+    //tes
+
     public void clear() {
         items.clear();
     }

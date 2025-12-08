@@ -9,7 +9,7 @@ public class CartCheckoutFrame extends JFrame {
     private Cart cart;
     private JTable tableCart;
     private JLabel lblTotal;
-
+    //tes
     public CartCheckoutFrame(Customer customer, Cart cart){
         this.customer = customer;
         this.cart = cart;
