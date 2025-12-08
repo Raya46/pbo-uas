@@ -231,10 +231,10 @@ public class CashierMainFrame extends JFrame {
     private void loadOrders() {
         tableOrdersModel.setRowCount(0);
 
-        String sql = "SELECT o.order_id, c.customer_name, rt.table_number, o.total_amount, " +
+        String sql = "SELECT o.order_id, u.full_name as customer_name, rt.table_number, o.total_amount, " +
                 "o.status, o.order_date " +
                 "FROM orders o " +
-                "LEFT JOIN customers c ON o.customer_id = c.customer_id " +
+                "LEFT JOIN users u ON o.user_id = u.user_id " +
                 "LEFT JOIN restaurant_tables rt ON o.table_id = rt.table_id " +
                 "WHERE DATE(o.order_date) = CURDATE() " +
                 "ORDER BY o.order_date DESC";
@@ -314,9 +314,9 @@ public class CashierMainFrame extends JFrame {
         detail.append("         DETAIL PESANAN\n");
         detail.append("═══════════════════════════════════\n\n");
 
-        String sql = "SELECT o.*, c.customer_name, c.phone_number, rt.table_number " +
+        String sql = "SELECT o.*, u.full_name as customer_name, u.username as phone_number, rt.table_number " +
                 "FROM orders o " +
-                "LEFT JOIN customers c ON o.customer_id = c.customer_id " +
+                "LEFT JOIN users u ON o.user_id = u.user_id " +
                 "LEFT JOIN restaurant_tables rt ON o.table_id = rt.table_id " +
                 "WHERE o.order_id = ?";
 
@@ -509,9 +509,9 @@ public class CashierMainFrame extends JFrame {
         receipt.append("      Telp: (021) 1234567\n");
         receipt.append("═══════════════════════════════════\n\n");
 
-        String sql = "SELECT o.*, c.customer_name, c.phone_number, rt.table_number " +
+        String sql = "SELECT o.*, u.full_name as customer_name, u.username as phone_number, rt.table_number " +
                 "FROM orders o " +
-                "LEFT JOIN customers c ON o.customer_id = c.customer_id " +
+                "LEFT JOIN users u ON o.user_id = u.user_id " +
                 "LEFT JOIN restaurant_tables rt ON o.table_id = rt.table_id " +
                 "WHERE o.order_id = ?";
 

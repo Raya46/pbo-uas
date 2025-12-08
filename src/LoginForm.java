@@ -16,16 +16,18 @@ public class LoginForm extends JFrame {
         setTitle("Login Sistem Restoran");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // Agar muncul tepat di tengah layar
         setLayout(new BorderLayout());
 
+        // Header
         JLabel lblTitle = new JLabel("Login System", SwingConstants.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTitle.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Memberi jarak atas bawah
+        lblTitle.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(lblTitle, BorderLayout.NORTH);
 
+        // Form Input
         JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40)); // Padding kiri kanan
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         formPanel.add(new JLabel("Username:"));
         txtUsername = new JTextField();
@@ -35,12 +37,13 @@ public class LoginForm extends JFrame {
         txtPassword = new JPasswordField();
         formPanel.add(txtPassword);
 
-        formPanel.add(new JLabel("")); // Spacer kosong di kiri
+        formPanel.add(new JLabel("")); // Spacer kosong
         btnLogin = new JButton("Login");
         formPanel.add(btnLogin);
 
         add(formPanel, BorderLayout.CENTER);
 
+        // Event Actions
         btnLogin.addActionListener((ActionEvent e) -> {
             performLogin();
         });
@@ -54,14 +57,14 @@ public class LoginForm extends JFrame {
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
 
-        // Validasi input kosong
+        // 1. Validasi input kosong
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong!", "Peringatan",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Panggil UserDAO untuk cek ke database
+        // 2. Cek ke database via UserDAO untuk semua role
         UserDAO userDAO = new UserDAO();
         User user = userDAO.validateLogin(username, password);
 
@@ -71,19 +74,17 @@ public class LoginForm extends JFrame {
 
             this.dispose(); // Tutup jendela login
 
-            // === LOGIC ROLE DIPERBARUI DI SINI ===
+            // 3. Arahkan sesuai Role
             if (user.getRole().equalsIgnoreCase("admin")) {
-                // Buka Dashboard Admin
                 new AdminMainFrame(user).setVisible(true);
 
             } else if (user.getRole().equalsIgnoreCase("kasir")) {
-                // Buka Dashboard Kasir (Pastikan file CashierMainFrame sudah ada, atau buat dummy dulu)
-                // new CashierMainFrame(user).setVisible(true);
-                JOptionPane.showMessageDialog(this, "Dashboard Kasir belum dibuat (Next Step)");
+                new CashierMainFrame(user).setVisible(true);
 
             } else if (user.getRole().equalsIgnoreCase("customer")) {
-                // Buka Dashboard Customer
-                new CustomerMainFrame(user).setVisible(true);
+                // Convert User ke Customer untuk compatibility dengan frame customer
+                Customer customer = new Customer(user.getUserId(), user.getUsername(), user.getPassword(), user.getFullName());
+                new CustomerDashboard(customer).setVisible(true);
 
             } else {
                 JOptionPane.showMessageDialog(this, "Role user tidak dikenali: " + user.getRole(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -96,16 +97,13 @@ public class LoginForm extends JFrame {
         }
     }
 
-    // Main Method agar file ini bisa di-Run langsung
     public static void main(String[] args) {
-        // Mengatur tampilan agar mengikuti gaya sistem operasi (Windows/Mac/Linux)
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             System.out.println("Gagal meload skin native: " + e.getMessage());
         }
 
-        // Menjalankan Swing di Thread yang aman
         SwingUtilities.invokeLater(() -> {
             new LoginForm().setVisible(true);
         });

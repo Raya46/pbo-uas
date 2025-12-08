@@ -24,6 +24,13 @@ public class MenuItem {
         this.isAvailable = isAvailable;
     }
 
+    // Constructor sederhana untuk compatibility dengan CustomerViewMenuFrame
+    public MenuItem(int menuId, String name, double price) {
+        this.menuId = menuId;
+        this.name = name;
+        this.price = BigDecimal.valueOf(price);
+    }
+
     public int getMenuId() {
         return menuId;
     }

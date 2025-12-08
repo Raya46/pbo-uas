@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 public class OrderDAO {
 
     public int createOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (customer_id, total_price, order_date) VALUES (?, ?, NOW())";
+        String sql = "INSERT INTO orders (customer_id, total_amount, order_date) VALUES (?, ?, NOW())";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -37,21 +37,21 @@ public class OrderDAO {
         }
     }
 
-    public List<Order> getOrdersByCustomer(int customerId) {
+    public List<Order> getOrdersByCustomer(int userId) {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT * FROM orders WHERE customer_id = ? ORDER BY order_date DESC";
+        String sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, customerId);
+            ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 orders.add(new Order(
-                        rs.getInt("id"),
-                        rs.getInt("customer_id"),
-                        rs.getBigDecimal("total_price"),
+                        rs.getInt("order_id"),
+                        rs.getInt("user_id"),
+                        rs.getBigDecimal("total_amount"),
                         rs.getTimestamp("order_date")
                 ));
             }
@@ -75,11 +75,11 @@ public class OrderDAO {
 
             while (rs.next()) {
                 details.add(new OrderDetail(
-                        rs.getInt("id"),
+                        rs.getInt("detail_id"),
                         rs.getInt("order_id"),
                         rs.getInt("menu_id"),
                         rs.getInt("quantity"),
-                        rs.getBigDecimal("price")
+                        rs.getBigDecimal("subtotal")
                 ));
             }
 

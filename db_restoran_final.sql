@@ -43,25 +43,6 @@ INSERT INTO `categories` (`category_id`, `category_name`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Struktur dari tabel `customers`
---
-
-CREATE TABLE `customers` (
-  `customer_id` int(11) NOT NULL,
-  `customer_name` varchar(100) NOT NULL,
-  `phone_number` varchar(20) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `customers`
---
-
-INSERT INTO `customers` (`customer_id`, `customer_name`, `phone_number`, `email`, `password`) VALUES
-(1, 'Guest Customer', '-', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -98,7 +79,6 @@ INSERT INTO `menu_items` (`menu_id`, `category_id`, `name`, `description`, `pric
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
-  `customer_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `table_id` int(11) DEFAULT NULL,
   `order_date` datetime DEFAULT current_timestamp(),
@@ -111,8 +91,8 @@ CREATE TABLE `orders` (
 -- Dumping data untuk tabel `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `customer_id`, `user_id`, `table_id`, `order_date`, `total_amount`, `status`, `payment_method`) VALUES
-(1, 1, 2, 1, '2025-11-25 18:47:44', 55000.00, 'paid', 'cash');
+INSERT INTO `orders` (`order_id`, `user_id`, `table_id`, `order_date`, `total_amount`, `status`, `payment_method`) VALUES
+(1, 3, 1, '2025-11-25 18:47:44', 55000.00, 'paid', 'cash');
 
 -- --------------------------------------------------------
 
@@ -171,7 +151,7 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `full_name` varchar(100) NOT NULL,
-  `role` enum('admin','kasir','dapur') NOT NULL DEFAULT 'kasir',
+  `role` enum('admin','kasir','customer') NOT NULL DEFAULT 'kasir',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -182,7 +162,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `role`, `created_at`) VALUES
 (1, 'admin', 'admin123', 'Manager Resto', 'admin', '2025-11-25 11:47:44'),
 (2, 'kasir', 'kasir123', 'Siti Kasir', 'kasir', '2025-11-25 11:47:44'),
-(3, 'chef', 'chef123', 'Juna Chef', 'dapur', '2025-11-25 11:47:44');
+(3, 'customer', 'customer123', 'customer cuy', 'customer', '2025-11-25 11:47:44'),
+(4, 'john', 'customer123', 'John Doe', 'customer', '2025-11-25 11:47:44'),
+(5, 'jane', 'customer123', 'Jane Smith', 'customer', '2025-11-25 11:47:44');
 
 --
 -- Indexes for dumped tables
@@ -193,12 +175,6 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `role`, `cr
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
-
---
--- Indeks untuk tabel `customers`
---
-ALTER TABLE `customers`
-  ADD PRIMARY KEY (`customer_id`);
 
 --
 -- Indeks untuk tabel `menu_items`
@@ -212,7 +188,6 @@ ALTER TABLE `menu_items`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `customer_id` (`customer_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `table_id` (`table_id`);
 
@@ -249,12 +224,6 @@ ALTER TABLE `categories`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `customers`
---
-ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT untuk tabel `menu_items`
 --
 ALTER TABLE `menu_items`
@@ -282,7 +251,7 @@ ALTER TABLE `restaurant_tables`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -298,9 +267,8 @@ ALTER TABLE `menu_items`
 -- Ketidakleluasaan untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`table_id`) REFERENCES `restaurant_tables` (`table_id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`table_id`) REFERENCES `restaurant_tables` (`table_id`);
 
 --
 -- Ketidakleluasaan untuk tabel `order_details`
