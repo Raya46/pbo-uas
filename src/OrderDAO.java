@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 public class OrderDAO {
 
     public int createOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (customer_id, total_amount, order_date) VALUES (?, ?, NOW())";
+        String sql = "INSERT INTO orders (user_id, total_amount, order_date) VALUES (?, ?, NOW())";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, order.getCustomerId());
             ps.setBigDecimal(2, order.getTotalPrice());
@@ -27,7 +27,7 @@ public class OrderDAO {
         String sql = "INSERT INTO order_details (order_id, menu_id, quantity, price) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, detail.getOrderId());
             ps.setInt(2, detail.getMenuId());
@@ -42,7 +42,7 @@ public class OrderDAO {
         String sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
@@ -52,8 +52,7 @@ public class OrderDAO {
                         rs.getInt("order_id"),
                         rs.getInt("user_id"),
                         rs.getBigDecimal("total_amount"),
-                        rs.getTimestamp("order_date")
-                ));
+                        rs.getTimestamp("order_date")));
             }
 
         } catch (SQLException e) {
@@ -68,7 +67,7 @@ public class OrderDAO {
         String sql = "SELECT * FROM order_details WHERE order_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
@@ -79,8 +78,7 @@ public class OrderDAO {
                         rs.getInt("order_id"),
                         rs.getInt("menu_id"),
                         rs.getInt("quantity"),
-                        rs.getBigDecimal("subtotal")
-                ));
+                        rs.getBigDecimal("subtotal")));
             }
 
         } catch (SQLException e) {
