@@ -34,8 +34,7 @@ public class ReportsFrame extends JFrame {
         topPanel.add(new JLabel("Pilih Tanggal: "));
 
         dateSpinner = new JSpinner(
-                new SpinnerDateModel(new Date(), null, null, java.util.Calendar.DAY_OF_MONTH)
-        );
+                new SpinnerDateModel(new Date(), null, null, java.util.Calendar.DAY_OF_MONTH));
         dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "yyyy-MM-dd"));
         topPanel.add(dateSpinner);
 
@@ -74,17 +73,16 @@ public class ReportsFrame extends JFrame {
     // =============================
     private void loadDailyReport() {
 
-        String query =
-                "SELECT o.order_id AS order_id, o.customer_id AS customer_id, " +
+        String query = "SELECT o.order_id AS order_id, o.user_id AS user_id, " +
                 "SUM(d.subtotal) AS total_price, o.order_date AS order_date " +
                 "FROM orders o " +
                 "JOIN order_details d ON o.order_id = d.order_id " +
                 "WHERE DATE(o.order_date) = ? " +
-                "GROUP BY o.order_id, o.customer_id, o.order_date " +
+                "GROUP BY o.order_id, o.user_id, o.order_date " +
                 "ORDER BY o.order_date";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
             Date utilDate = (Date) dateSpinner.getValue();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -105,8 +103,7 @@ public class ReportsFrame extends JFrame {
     // =============================
     private void loadMonthlyReport() {
 
-        String query =
-                "SELECT DATE(o.order_date) AS tanggal, " +
+        String query = "SELECT DATE(o.order_date) AS tanggal, " +
                 "SUM(d.subtotal) AS total_pendapatan " +
                 "FROM orders o " +
                 "JOIN order_details d ON o.order_id = d.order_id " +
@@ -115,7 +112,7 @@ public class ReportsFrame extends JFrame {
                 "ORDER BY tanggal";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
             Date selected = (Date) dateSpinner.getValue();
             SimpleDateFormat f = new SimpleDateFormat("yyyy-MM");
@@ -156,7 +153,8 @@ public class ReportsFrame extends JFrame {
                 if (val instanceof BigDecimal)
                     val = ((BigDecimal) val).toPlainString();
 
-                if (val == null) val = "-";
+                if (val == null)
+                    val = "-";
 
                 row.add(val);
             }
@@ -172,7 +170,8 @@ public class ReportsFrame extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         SwingUtilities.invokeLater(() -> new ReportsFrame().setVisible(true));
     }

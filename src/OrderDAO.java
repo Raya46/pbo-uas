@@ -24,7 +24,7 @@ public class OrderDAO {
     }
 
     public void addOrderDetail(OrderDetail detail) throws SQLException {
-        String sql = "INSERT INTO order_details (order_id, menu_id, quantity, price) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO order_details (order_id, menu_id, quantity, subtotal) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
