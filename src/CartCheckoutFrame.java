@@ -3,6 +3,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.math.BigDecimal; // Import BigDecimal
 import java.util.Date;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartCheckoutFrame extends JFrame {
 
@@ -54,8 +57,50 @@ public class CartCheckoutFrame extends JFrame {
             // FIX ERROR: Konversi double ke BigDecimal menggunakan BigDecimal.valueOf()
             BigDecimal totalAmount = BigDecimal.valueOf(cart.getTotal());
 
+            // Minta input Nomor Meja (dari Database)
+            int tableId = 0;
+            try (Connection conn = DatabaseConnection.getConnection();
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(
+                            "SELECT table_id, table_number FROM restaurant_tables WHERE status = 'available' ORDER BY table_number")) {
+
+                List<String> tableOptions = new ArrayList<>();
+                List<Integer> tableIds = new ArrayList<>();
+
+                // Opsi Take Away selalu ada
+                tableOptions.add("Take Away");
+                tableIds.add(0);
+
+                while (rs.next()) {
+                    tableOptions.add("Meja " + rs.getString("table_number"));
+                    tableIds.add(rs.getInt("table_id"));
+                }
+
+                if (tableIds.size() == 1) { // Cuma Take Away
+                    JOptionPane.showMessageDialog(this, "Semua meja penuh! Otomatis Take Away.");
+                } else {
+                    Object selected = JOptionPane.showInputDialog(this,
+                            "Pilih Meja:", "Pilih Meja",
+                            JOptionPane.QUESTION_MESSAGE, null,
+                            tableOptions.toArray(),
+                            tableOptions.get(0));
+
+                    if (selected == null)
+                        return; // Cancel check out
+
+                    int idx = tableOptions.indexOf(selected);
+                    tableId = tableIds.get(idx);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Gagal mengambil data meja: " + e.getMessage());
+                return; // Jangan lanjut checkout kalau error DB
+            }
+
             // Gunakan user_id untuk customer
             Order order = new Order(customer.getUserId(), totalAmount, new Date());
+            order.setTableId(tableId); // Set Table ID
 
             OrderDAO dao = new OrderDAO();
             int orderId = dao.createOrder(order);
