@@ -6,25 +6,41 @@ import java.math.BigDecimal;
 public class OrderDAO {
 
     public int createOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (user_id, total_amount, order_date) VALUES (?, ?, NOW())";
+        String sql = "INSERT INTO orders (user_id, total_amount, order_date, table_id) VALUES (?, ?, NOW(), ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, order.getCustomerId());
             ps.setBigDecimal(2, order.getTotalPrice());
+            if (order.getTableId() > 0) {
+                ps.setInt(3, order.getTableId());
+            } else {
+                ps.setNull(3, java.sql.Types.INTEGER);
+            }
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                return rs.getInt(1);
+                int newOrderId = rs.getInt(1);
+
+                // FIX: Update status meja jadi 'occupied' jika pesanan bukan Take Away (tableId
+                // != 0)
+                if (order.getTableId() > 0) {
+                    String updateTableSql = "UPDATE restaurant_tables SET status = 'occupied' WHERE table_id = ?";
+                    try (PreparedStatement psTable = conn.prepareStatement(updateTableSql)) {
+                        psTable.setInt(1, order.getTableId());
+                        psTable.executeUpdate();
+                    }
+                }
+                return newOrderId;
             }
         }
         return -1;
     }
 
     public void addOrderDetail(OrderDetail detail) throws SQLException {
-        String sql = "INSERT INTO order_details (order_id, menu_id, quantity, price) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO order_details (order_id, menu_id, quantity, subtotal) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {

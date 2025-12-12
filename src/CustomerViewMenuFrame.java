@@ -2,12 +2,13 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.math.BigDecimal;
 
 public class CustomerViewMenuFrame extends JFrame {
 
     private Customer customer;
     private Cart cart;
-    //tes
+    // tes
     private JTable tableMenu;
     private DefaultTableModel model;
     private JButton btnAddToCart, btnViewCart, btnBack;
@@ -17,11 +18,11 @@ public class CustomerViewMenuFrame extends JFrame {
         this.cart = cart;
 
         setTitle("Daftar Menu");
-        setSize(700,400);
+        setSize(700, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        model = new DefaultTableModel(new Object[]{"ID","Nama Menu","Harga"},0);
+        model = new DefaultTableModel(new Object[] { "ID", "Nama Menu", "Harga" }, 0);
         tableMenu = new JTable(model);
         loadDataMenu();
 
@@ -39,22 +40,23 @@ public class CustomerViewMenuFrame extends JFrame {
 
         btnAddToCart.addActionListener(e -> {
             int selectedRow = tableMenu.getSelectedRow();
-            if(selectedRow>=0){
-                int menuId = (int) tableMenu.getValueAt(selectedRow,0);
-                String name = (String) tableMenu.getValueAt(selectedRow,1);
-                double price = (double) tableMenu.getValueAt(selectedRow,2);
+            if (selectedRow >= 0) {
+                int menuId = (int) tableMenu.getValueAt(selectedRow, 0);
+                String name = (String) tableMenu.getValueAt(selectedRow, 1);
+                BigDecimal priceBd = (BigDecimal) tableMenu.getValueAt(selectedRow, 2);
+                double price = priceBd.doubleValue();
 
-                MenuItem menuItem = new MenuItem(menuId,name,price);
-                cart.addItem(menuItem,1);
+                MenuItem menuItem = new MenuItem(menuId, name, price);
+                cart.addItem(menuItem, 1);
 
-                JOptionPane.showMessageDialog(this,"Berhasil ditambahkan ke keranjang!");
+                JOptionPane.showMessageDialog(this, "Berhasil ditambahkan ke keranjang!");
             } else {
-                JOptionPane.showMessageDialog(this,"Pilih menu terlebih dahulu!");
+                JOptionPane.showMessageDialog(this, "Pilih menu terlebih dahulu!");
             }
         });
 
         btnViewCart.addActionListener(e -> {
-            new CustomerCartFrame(customer,cart).setVisible(true);
+            new CustomerCartFrame(customer, cart).setVisible(true);
             dispose();
         });
 
@@ -64,16 +66,16 @@ public class CustomerViewMenuFrame extends JFrame {
         });
     }
 
-    private void loadDataMenu(){
-        try{
+    private void loadDataMenu() {
+        try {
             MenuDAO dao = new MenuDAO();
             ArrayList<MenuItem> menuList = dao.getAllMenuItems();
             model.setRowCount(0);
-            for(MenuItem m: menuList){
-                model.addRow(new Object[]{m.getMenuId(), m.getName(), m.getPrice()});
+            for (MenuItem m : menuList) {
+                model.addRow(new Object[] { m.getMenuId(), m.getName(), m.getPrice() });
             }
-        } catch(Exception ex){
-            JOptionPane.showMessageDialog(this,"Gagal memuat data menu!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat data menu!");
             ex.printStackTrace();
         }
     }
